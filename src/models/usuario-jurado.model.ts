@@ -1,6 +1,18 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Jurados} from './jurados.model';
 
-@model()
+@model({
+  settings: {
+    foreignKeys: {
+      fk_Usuario_id_jurado: {
+        name: 'fk_Usuario_id_jurado',
+        entity: 'Jurado',
+        entityKey: 'id',
+        foreignKey: 'id_jurado',
+      }
+    },
+  },
+})
 export class UsuarioJurado extends Entity {
   @property({
     type: 'number',
@@ -15,6 +27,8 @@ export class UsuarioJurado extends Entity {
   })
   clave: string;
 
+  @belongsTo(() => Jurados, {name: 'tiene'})
+  id_jurado: number;
 
   constructor(data?: Partial<UsuarioJurado>) {
     super(data);
